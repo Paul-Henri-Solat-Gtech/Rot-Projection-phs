@@ -19,7 +19,7 @@ int main(int argc, char** argv)
     printf(ansi_firstPos.c_str());
     printf(ansi_hideCursor.c_str());
 
-    std::cout << "Haaa (this text will be in first)\n";
+    std::cout << "Hello World\n";
 
     return 0;
 }
