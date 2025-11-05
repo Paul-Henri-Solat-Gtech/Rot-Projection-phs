@@ -1,52 +1,88 @@
 #include <iostream>
 #include <Windows.h>
+#include <cstdlib>
+
+int screenWidth = 100;
+int screenHeight = 20;
 
 struct Vec2
 {
-    float _x;
-    float _y;
+	float _x;
+	float _y;
 
-    Vec2(float x, float y) { _x = x; _y = y; }
+	Vec2(float x, float y) { _x = x; _y = y; }
 };
 
-void ScreenSimulation() 
+void ScreenSimulation()
 {
-    Vec2 screenDimension(100,20);
+	Vec2 screenDimension(screenWidth, screenHeight);
 
-    int screenWidth = screenDimension._x;
-    int screenHeight = screenDimension._y;
+	int sWidth = screenDimension._x;
+	int sHeight = screenDimension._y;
 
-    for (int sh = screenHeight; sh > 0; sh--)
-    {
-        for (int sw = screenWidth; sw > 0; sw--)
-        {
-            std::cout << ".";
-        }
-        std::cout << "\n";
-    }
+	for (int sh = sHeight; sh > 0; sh--)
+	{
+		for (int sw = sWidth; sw > 0; sw--)
+		{
+			std::cout << ".";
+		}
+		std::cout << "\n";
+	}
 }
 
-int main(int argc, char** argv)
+void SetWidth(char* screenW)
 {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    DWORD mode;
-    GetConsoleMode(hConsole, &mode);
-    SetConsoleMode(hConsole, mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
+	screenWidth = std::atoi(screenW);
+}
+void SetHeight(char* screenH)
+{
+	screenHeight = std::atoi(screenH);
+}
 
-    std::string ansi_clear = "\033[2J";
-    std::string ansi_firstPos = "\033[H";
-    std::string ansi_hideCursor = "\033[?25l";
-    std::string ansi_showCursor = "\033[? 25h";
+int main(int argc, char* argv[])
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	DWORD mode;
+	GetConsoleMode(hConsole, &mode);
+	SetConsoleMode(hConsole, mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
 
-    std::cout << "Hello World (this text will be cleared)\n";
+	std::string ansi_clear = "\033[2J";
+	std::string ansi_firstPos = "\033[H";
+	std::string ansi_hideCursor = "\033[?25l";
+	std::string ansi_showCursor = "\033[? 25h";
 
-    printf(ansi_clear.c_str());
-    printf(ansi_firstPos.c_str());
-    printf(ansi_hideCursor.c_str());
+	// std::cout << "Hello World (this text will be cleared)\n";
 
-    //std::cout << "Hello World\n";
-    
-    ScreenSimulation();
+	printf(ansi_clear.c_str());
+	printf(ansi_firstPos.c_str());
+	printf(ansi_hideCursor.c_str());
 
-    return 0;
+	//std::cout << "Hello World\n";
+
+	// parse args
+	bool doStart = false;
+	for (int i = 1; i < argc; ++i)
+	{
+		std::string a = argv[i];
+		if (a == "-w" && i + 1 < argc) { SetWidth(argv[++i]); continue; }
+		if (a == "-h" && i + 1 < argc) { SetHeight(argv[++i]); continue; }
+		if (a == "-start") { doStart = true; continue; }
+		// optionnel: add -help, -w=20 syntax, etc.
+	}
+
+	// clear screen etc.
+	std::cout << ansi_clear << ansi_firstPos << ansi_hideCursor;
+
+	if (doStart)
+	{
+		ScreenSimulation();
+	}
+	else 
+	{
+		std::cout << "No -start flag given. Use: exe -w 20 -h 10 -start\n";
+	}
+
+	// .\Rot-Projection-phs.exe -w 20 -h 20 -start After constructing the release
+
+	return 0;
 }
