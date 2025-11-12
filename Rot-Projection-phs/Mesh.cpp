@@ -2,14 +2,19 @@
 
 #include <iostream>
 
+Mesh::Mesh(Settings settings): _settings(settings)
+{
+	_resolution = _settings.GetMeshResolution();
+}
+
 void Mesh::Debug()
 {
 	std::cout << "\nVertexList : [";
-	for (auto v : _vertexList) 
+	for (auto& v : _vertexList)
 	{
 		std::cout << "{" << v.x << "," << v.y << "," << v.z << "},";
 	}
-	std::cout << "]";
+	std::cout << "] Res:" << _resolution << std::endl;
 }
 
 Vertex Mesh::CreateVertex(float _x, float _y, float _z)

@@ -15,6 +15,8 @@ void Screen::Display()
 		}
 		std::cout << "\n";
 	}
+
+	_settings.PrintInfo();
 }
 
 void Screen::Clear()

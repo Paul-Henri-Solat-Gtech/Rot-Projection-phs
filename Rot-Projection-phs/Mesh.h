@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "Settings.h"
 
 struct Vertex
 {
@@ -12,6 +13,8 @@ struct Vertex
 class Mesh
 {
 public:
+	Mesh(Settings settings);
+
 	void Debug();
 
 	Vertex CreateVertex(float _x, float _y, float _z);
@@ -19,5 +22,7 @@ public:
 private:
 
 	std::vector<Vertex> _vertexList;
+	Settings _settings;
+	int _resolution;
 };
 

@@ -17,6 +17,7 @@ int main(int argc, char* argv[])
 	// parse args
 	int screenWidth = 0;
 	int screenHeight = 0;
+	int meshResolution = 32;
 
 	bool doStart = false;
 	for (int i = 1; i < argc; ++i)
@@ -24,12 +25,13 @@ int main(int argc, char* argv[])
 		std::string a = argv[i];
 		if (a == "-w" && i + 1 < argc) { screenWidth = std::atoi(argv[++i]); continue; }
 		if (a == "-h" && i + 1 < argc) { screenHeight = std::atoi(argv[++i]); continue; }
+		if (a == "-r" && i + 1 < argc) { meshResolution = std::atoi(argv[++i]); continue; }
 	}
 
 	if (screenWidth > 0 && screenHeight > 0)
 	{
 		//Set settings
-		Settings newSettings(screenWidth, screenHeight);
+		Settings newSettings(screenWidth, screenHeight, meshResolution);
 
 		//Build Screen
 		Screen newScreen(newSettings);
@@ -37,7 +39,7 @@ int main(int argc, char* argv[])
 		newScreen.Display();
 
 		//Mesh
-		Mesh newMesh;
+		Mesh newMesh(newSettings);
 		newMesh.CreateVertex(-1, -1, 0);
 		newMesh.CreateVertex(-1, 1, 0);
 		newMesh.CreateVertex(1, -1, 0);
@@ -47,10 +49,10 @@ int main(int argc, char* argv[])
 	}
 	else 
 	{
-		std::cout << "No -start flag given. Use: exe -w 20 -h 10\n";
+		std::cout << "No -start flag given. Use: exe -w 20 -h 10 -r 32\n";
 	}
 
-	// .\Rot-Projection-phs.exe -w 20 -h 20 <-After constructing the release
+	// .\Rot-Projection-phs.exe -w 20 -h 20 -r 32 <-After constructing the release
 
 	return 0;
 }
