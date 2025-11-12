@@ -28,3 +28,19 @@ Vertex Mesh::CreateVertex(float _x, float _y, float _z)
 
 	return newV;
 }
+
+void Mesh::GenerateSquare(float size)
+{
+}
+
+void Mesh::GenerateRectangle(float width, float height)
+{
+}
+
+void Mesh::GenerateCircle(float radius)
+{
+}
+
+void Mesh::GenerateHalfCircle(float radius)
+{
+}

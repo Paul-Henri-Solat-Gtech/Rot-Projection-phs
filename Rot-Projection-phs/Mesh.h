@@ -19,6 +19,11 @@ public:
 
 	Vertex CreateVertex(float _x, float _y, float _z);
 
+	void GenerateSquare(float size);
+	void GenerateRectangle(float width, float height);
+	void GenerateCircle(float radius);
+	void GenerateHalfCircle(float radius);
+
 private:
 
 	std::vector<Vertex> _vertexList;
