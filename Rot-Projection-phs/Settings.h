@@ -16,4 +16,3 @@ private:
 	int _screenWidth, _screenHeight;
 
 };
-

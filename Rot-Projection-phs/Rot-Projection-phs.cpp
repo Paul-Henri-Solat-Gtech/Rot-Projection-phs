@@ -5,6 +5,7 @@
 
 #include "Settings.h"
 #include "Screen.h"
+#include "Mesh.h"
 
 int main(int argc, char* argv[])
 {
@@ -34,13 +35,22 @@ int main(int argc, char* argv[])
 		Screen newScreen(newSettings);
 		newScreen.Clear();
 		newScreen.Display();
+
+		//Mesh
+		Mesh newMesh;
+		newMesh.CreateVertex(-1, -1, 0);
+		newMesh.CreateVertex(-1, 1, 0);
+		newMesh.CreateVertex(1, -1, 0);
+		newMesh.CreateVertex(1, 1, 0);
+
+		newMesh.Debug();
 	}
 	else 
 	{
 		std::cout << "No -start flag given. Use: exe -w 20 -h 10\n";
 	}
 
-	// .\Rot-Projection-phs.exe -w 20 -h 20 After constructing the release
+	// .\Rot-Projection-phs.exe -w 20 -h 20 <-After constructing the release
 
 	return 0;
 }
