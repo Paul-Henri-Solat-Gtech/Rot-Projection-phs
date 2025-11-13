@@ -15,6 +15,8 @@ void Mesh::Debug()
 		std::cout << "{" << v.x << "," << v.y << "," << v.z << "},";
 	}
 	std::cout << "] Res:" << _resolution << std::endl;
+
+	GenerateSquare(_vertexList.size());
 }
 
 Vertex Mesh::CreateVertex(float _x, float _y, float _z)
@@ -31,6 +33,12 @@ Vertex Mesh::CreateVertex(float _x, float _y, float _z)
 
 void Mesh::GenerateSquare(float size)
 {
+	for (auto s = size; s > 0; s--) 
+	{
+		float fx = (2 * _settings.GetMeshResolution()) / size;
+
+		std::cout << 0;
+	}
 }
 
 void Mesh::GenerateRectangle(float width, float height)
