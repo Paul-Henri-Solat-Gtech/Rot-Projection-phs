@@ -19,6 +19,11 @@ void Screen::Display()
 	_settings.PrintInfo();
 }
 
+void Screen::DrawMesh(Mesh const& mesh)
+{
+
+}
+
 void Screen::Clear()
 {
 	std::string ansi_clear = "\033[2J";

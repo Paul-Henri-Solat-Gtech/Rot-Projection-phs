@@ -17,7 +17,11 @@ int main(int argc, char* argv[])
 	// parse args
 	int screenWidth = 0;
 	int screenHeight = 0;
-	int meshResolution = 32;
+	int meshResolution = 4;
+	char screenBackground = '.';
+	char screenMeshProjection = 'X';
+	int screenPosition = 9;
+	int viewerPosition = 10;
 
 	bool doStart = false;
 	for (int i = 1; i < argc; ++i)
@@ -26,12 +30,16 @@ int main(int argc, char* argv[])
 		if (a == "-w" && i + 1 < argc) { screenWidth = std::atoi(argv[++i]); continue; }
 		if (a == "-h" && i + 1 < argc) { screenHeight = std::atoi(argv[++i]); continue; }
 		if (a == "-r" && i + 1 < argc) { meshResolution = std::atoi(argv[++i]); continue; }
+		if (a == "-b" && i + 1 < argc) { screenBackground = std::atoi(argv[++i]); continue; }
+		if (a == "-p" && i + 1 < argc) { screenMeshProjection = std::atoi(argv[++i]); continue; }
+		if (a == "-s" && i + 1 < argc) { screenPosition = std::atoi(argv[++i]); continue; }
+		if (a == "-v" && i + 1 < argc) { viewerPosition = std::atoi(argv[++i]); continue; }
 	}
 
 	if (screenWidth > 0 && screenHeight > 0)
 	{
 		//Set settings
-		Settings newSettings(screenWidth, screenHeight, meshResolution);
+		Settings newSettings(screenWidth, screenHeight, meshResolution, screenBackground,screenMeshProjection,screenPosition,viewerPosition);
 
 		//Build Screen
 		Screen newScreen(newSettings);
@@ -55,10 +63,10 @@ int main(int argc, char* argv[])
 	}
 	else 
 	{
-		std::cout << "No -start flag given. Use: exe -w 20 -h 10 -r 32\n";
+		std::cout << "No -start flag given. Use: exe -w 20 -h 10 -r 4 -b . -p X -s 9 -v 10\n";
 	}
 
-	// .\Rot-Projection-phs.exe -w 20 -h 20 -r 32 <-After constructing the release
+	// .\Rot-Projection-phs.exe -w 20 -h 20 -r 4 -b . -p X -s 9 -v 10 <-After constructing the release
 
 	return 0;
 }
