@@ -6,8 +6,10 @@
 
 struct Vertex
 {
-	float x, y, z;
-	//void Debug();
+	void Debug() const { std::printf("[x=%5.2f, y=%5.2f, z=%5.2f]\n", x, y, z); }
+	float x;
+	float y;
+	float z;
 };
 
 class Mesh
@@ -24,9 +26,11 @@ public:
 	void GenerateCircle(float radius);
 	void GenerateHalfCircle(float radius);
 
+	void _GenerateSector(float radius, float angle);
+
 private:
 
-	std::vector<Vertex> _vertexList;
+	std::vector<Vertex> _vertexList; // vertices
 	Settings _settings;
 	int _resolution;
 };

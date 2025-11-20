@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+constexpr float PI = 3.14159265f;
+
 Mesh::Mesh(Settings settings): _settings(settings)
 {
 	_resolution = _settings.GetMeshResolution();
@@ -9,14 +11,17 @@ Mesh::Mesh(Settings settings): _settings(settings)
 
 void Mesh::Debug()
 {
-	std::cout << "\nVertexList : [";
-	for (auto& v : _vertexList)
-	{
-		std::cout << "{" << v.x << "," << v.y << "," << v.z << "},";
-	}
-	std::cout << "] Res:" << _resolution << std::endl;
+	//std::cout << "\nVertexList : [";
+	//for (auto& v : _vertexList)
+	//{
+	//	std::cout << "{" << v.x << "," << v.y << "," << v.z << "},";
+	//}
+	//std::cout << "] Res:" << _resolution << std::endl;
 
-	GenerateSquare(_vertexList.size());
+	for (Vertex const& vertex : _vertexList)
+	{
+		vertex.Debug();
+	}
 }
 
 Vertex Mesh::CreateVertex(float _x, float _y, float _z)
@@ -33,22 +38,45 @@ Vertex Mesh::CreateVertex(float _x, float _y, float _z)
 
 void Mesh::GenerateSquare(float size)
 {
-	for (auto s = size; s > 0; s--) 
-	{
-		float fx = (2 * _settings.GetMeshResolution()) / size;
-
-		std::cout << 0;
-	}
+	GenerateRectangle(size, size);
 }
 
 void Mesh::GenerateRectangle(float width, float height)
 {
+	_vertexList.resize(_settings.GetMeshResolution() * _settings.GetMeshResolution());
+	for (int i = 0; i < _settings.GetMeshResolution(); i++)
+	{
+		for (int j = 0; j < _settings.GetMeshResolution(); j++)
+		{
+			_vertexList[_settings.GetMeshResolution() * i + j].x = (1.f * i / (_settings.GetMeshResolution() - 1) - 0.5f) * width;
+			_vertexList[_settings.GetMeshResolution() * i + j].y = (1.f * j / (_settings.GetMeshResolution() - 1) - 0.5f) * height;
+			_vertexList[_settings.GetMeshResolution() * i + j].z = 0.f;
+		}
+	}
 }
 
 void Mesh::GenerateCircle(float radius)
 {
+	_GenerateSector(radius, 2 * PI);
 }
 
 void Mesh::GenerateHalfCircle(float radius)
 {
+	_GenerateSector(radius, PI);
+}
+
+void Mesh::_GenerateSector(float radius, float angle)
+{
+	_vertexList.resize(_settings.GetMeshResolution() * _settings.GetMeshResolution());
+	for (int i = 0; i < _settings.GetMeshResolution(); i++)
+	{
+		float r = (radius * i) / (_settings.GetMeshResolution() - 1);
+		for (int j = 0; j < _settings.GetMeshResolution(); j++)
+		{
+			float theta = (angle * j) / (_settings.GetMeshResolution() - 1);
+			_vertexList[_settings.GetMeshResolution() * i + j].x = r * std::cos(theta);
+			_vertexList[_settings.GetMeshResolution() * i + j].y = r * std::sin(theta);
+			_vertexList[_settings.GetMeshResolution() * i + j].z = 0.f;
+		}
+	}
 }
