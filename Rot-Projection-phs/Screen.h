@@ -15,7 +15,10 @@ public:
 	Settings& GetSettings() { return _settings; }
 
 private:
-
 	Settings _settings;
+
+	std::vector<char> m_pixels;
+	std::vector<float> m_oozBuffer;
+
 };
 

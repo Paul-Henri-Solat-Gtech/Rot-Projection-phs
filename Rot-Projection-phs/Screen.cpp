@@ -21,7 +21,30 @@ void Screen::Display()
 
 void Screen::DrawMesh(Mesh const& mesh)
 {
+	//std::fill(m_pixels);
 
+	for (Vertex v : mesh.GetVertices()) 
+	{
+		//projection
+		v.z += 0;
+		v.x = v.x / v.z * 0;
+		v.y = v.y / v.z * 0;
+
+		//shift(origin->topleftorigin)
+		v.x += GetSettings().GetScreenW();
+		v.y += GetSettings().GetScreenH();
+
+		int u = std::round(v.x);
+		int j = std::round(v.y);
+		float ooz = 1.0f / v.z;
+
+		if (u >= 0 && u < GetSettings().GetScreenW() && j >= 0 && j < GetSettings().GetScreenH())
+		{
+			m_oozBuffer[j * GetSettings().GetScreenW() + u] = ooz;
+			m_pixels[j * GetSettings().GetScreenW() + u] = GetSettings().GetScreenMeshProjection();
+
+		}
+	}
 }
 
 void Screen::Clear()

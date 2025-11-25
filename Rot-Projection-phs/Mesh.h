@@ -27,6 +27,7 @@ public:
 	void GenerateHalfCircle(float radius);
 
 	void _GenerateSector(float radius, float angle);
+	const std::vector<Vertex>& GetVertices() const { return _vertexList; }
 
 private:
 
