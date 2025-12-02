@@ -26,9 +26,12 @@ void Screen::DrawMesh(Mesh const& mesh)
 	for (Vertex v : mesh.GetVertices()) 
 	{
 		//projection
-		v.z += 0;
-		v.x = v.x / v.z * 0;
-		v.y = v.y / v.z * 0;
+		//v.z += 0;
+		//v.x = v.x / v.z * 0;
+		//v.y = v.y / v.z * 0;
+		v.z = 1; // temporaire : evite div par 0
+		v.x = v.x * 1.0f + GetSettings().GetScreenW() / 2;
+		v.y = v.y * 1.0f + GetSettings().GetScreenH() / 2;
 
 		//shift(origin->topleftorigin)
 		v.x += GetSettings().GetScreenW();

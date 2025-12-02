@@ -43,23 +43,28 @@ int main(int argc, char* argv[])
 
 		//Build Screen
 		Screen newScreen(newSettings);
-		newScreen.Clear();
-		newScreen.Display();
 
 		//Mesh
 		Mesh newMesh(newSettings);
 		newMesh.GenerateRectangle(2.f, 4.f);
-		std::cout << "Rectangle 2x4:" << std::endl;
 		newMesh.Debug();
-		newMesh.GenerateSquare(6.f);
-		std::cout << "Square 6x6:" << std::endl;
-		newMesh.Debug();
-		newMesh.GenerateCircle(2.f);
-		std::cout << "Circle radius 2:" << std::endl;
-		newMesh.Debug();
-		newMesh.GenerateHalfCircle(1.f);
-		std::cout << "Half Circle radius 1:" << std::endl;
-		newMesh.Debug();
+
+		newScreen.Clear();
+		newScreen.DrawMesh(newMesh);
+		newScreen.Display();
+
+
+		//std::cout << "Rectangle 2x4:" << std::endl;
+		//newMesh.Debug();
+		//newMesh.GenerateSquare(6.f);
+		//std::cout << "Square 6x6:" << std::endl;
+		//newMesh.Debug();
+		//newMesh.GenerateCircle(2.f);
+		//std::cout << "Circle radius 2:" << std::endl;
+		//newMesh.Debug();
+		//newMesh.GenerateHalfCircle(1.f);
+		//std::cout << "Half Circle radius 1:" << std::endl;
+		//newMesh.Debug();
 	}
 	else 
 	{
