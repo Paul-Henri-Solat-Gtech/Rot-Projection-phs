@@ -4,12 +4,24 @@
 
 #include "Settings.h"
 
+class Settings;
+
+enum class Axis
+{
+	x,
+	y,
+	z,
+};
+
 struct Vertex
 {
 	void Debug() const { std::printf("[x=%5.2f, y=%5.2f, z=%5.2f]\n", x, y, z); }
+	void Rotate(float angle, Axis axis);
 	float x;
 	float y;
 	float z;
+
+	Axis previous;
 };
 
 class Mesh
@@ -28,6 +40,8 @@ public:
 
 	void _GenerateSector(float radius, float angle);
 	const std::vector<Vertex>& GetVertices() const { return _vertexList; }
+
+	void Rotate(float angle, Axis axis);
 
 private:
 

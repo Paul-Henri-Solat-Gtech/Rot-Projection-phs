@@ -46,32 +46,42 @@ int main(int argc, char* argv[])
 
 		//Mesh
 		Mesh newMesh(newSettings);
-		newMesh.GenerateRectangle(2.f, 4.f);
-		newMesh.Debug();
 
-		newScreen.Clear();
+		std::cout << "Rectangle 2x4:" << std::endl;
+		newMesh.GenerateRectangle(2.f, 4.f);
+		//newMesh.Debug();
+		//newScreen.Clear();
 		newScreen.DrawMesh(newMesh);
 		newScreen.Display();
 
 
-		//std::cout << "Rectangle 2x4:" << std::endl;
+		std::cout << "Square 6x6:" << std::endl;
+		newMesh.GenerateSquare(6.f);
 		//newMesh.Debug();
-		//newMesh.GenerateSquare(6.f);
-		//std::cout << "Square 6x6:" << std::endl;
+		newScreen.ResetBuffers();   // vide les pixels et le Z-buffer
+		newScreen.DrawMesh(newMesh);
+		newScreen.Display();
+
+		std::cout << "Circle radius 2:" << std::endl;
+		newMesh.GenerateCircle(2.f);
 		//newMesh.Debug();
-		//newMesh.GenerateCircle(2.f);
-		//std::cout << "Circle radius 2:" << std::endl;
+		newScreen.ResetBuffers();   // vide les pixels et le Z-buffer
+		newScreen.DrawMesh(newMesh);
+		newScreen.Display();
+
+		std::cout << "Half Circle radius 1:" << std::endl;
+		newMesh.GenerateHalfCircle(1.f);
 		//newMesh.Debug();
-		//newMesh.GenerateHalfCircle(1.f);
-		//std::cout << "Half Circle radius 1:" << std::endl;
-		//newMesh.Debug();
+		newScreen.ResetBuffers();   // vide les pixels et le Z-buffer
+		newScreen.DrawMesh(newMesh);
+		newScreen.Display();
 	}
 	else 
 	{
-		std::cout << "No -start flag given. Use: exe -w 20 -h 10 -r 4 -b . -p X -s 9 -v 10\n";
+		std::cout << "No -start flag given. Use: exe -w 30 -h 15 -r 10 -b . -p X -s 9 -v 10\n";
 	}
 
-	// .\Rot-Projection-phs.exe -w 20 -h 20 -r 4 -b . -p X -s 9 -v 10 <-After constructing the release
-
+	// .\Rot-Projection-phs.exe -w 30 -h 15 -r 10 -b . -p X -s 9 -v 10 <-After constructing the release
+	// -r devrait etre a 30 pour un meilleur affichage mais il faut pauser les debug
 	return 0;
 }

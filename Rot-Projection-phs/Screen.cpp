@@ -36,8 +36,8 @@ void Screen::DrawMesh(Mesh const& mesh)
         if (v.z == 0) v.z = 1;
 
         // Projection 1:1 simple + recentrage dans l'écran
-        v.x = v.x + (_settings.GetScreenW() * 0.5f);
-        v.y = v.y + (_settings.GetScreenH() * 0.5f);
+        v.x = v.x * _settings.GetScreenPosition() + (_settings.GetScreenW() * 0.5f);
+        v.y = v.y * _settings.GetScreenPosition() + (_settings.GetScreenH() * 0.5f);
 
         int u = std::round(v.x);
         int j = std::round(v.y);
