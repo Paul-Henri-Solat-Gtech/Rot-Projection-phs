@@ -8,6 +8,8 @@ class Screen
 public:
 	Screen(Settings settings);
 
+	void ResetBuffers();
+
 	void Display();
 	void DrawMesh(Mesh const& mesh);
 	void Clear();

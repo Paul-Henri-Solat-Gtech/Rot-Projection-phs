@@ -30,8 +30,8 @@ int main(int argc, char* argv[])
 		if (a == "-w" && i + 1 < argc) { screenWidth = std::atoi(argv[++i]); continue; }
 		if (a == "-h" && i + 1 < argc) { screenHeight = std::atoi(argv[++i]); continue; }
 		if (a == "-r" && i + 1 < argc) { meshResolution = std::atoi(argv[++i]); continue; }
-		if (a == "-b" && i + 1 < argc) { screenBackground = std::atoi(argv[++i]); continue; }
-		if (a == "-p" && i + 1 < argc) { screenMeshProjection = std::atoi(argv[++i]); continue; }
+		if (a == "-b" && i + 1 < argc) { std::string val = argv[++i]; if (!val.empty()) screenBackground = val[0]; continue; }
+		if (a == "-p" && i + 1 < argc) { std::string val = argv[++i]; if (!val.empty()) screenMeshProjection = val[0]; continue; }
 		if (a == "-s" && i + 1 < argc) { screenPosition = std::atoi(argv[++i]); continue; }
 		if (a == "-v" && i + 1 < argc) { viewerPosition = std::atoi(argv[++i]); continue; }
 	}
