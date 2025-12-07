@@ -58,6 +58,36 @@ void Mesh::GenerateHalfCircle(float radius)
 	_GenerateSector(radius, PI);
 }
 
+void Mesh::GenerateTorus(float majorRadius, float minorRadius)
+{
+	int res = _settings.GetMeshResolution();
+	_vertexList.resize(res * res);
+
+	for (int j = 0; j < res; ++j) // phi : angle autour de l'anneau principal
+	{
+		float phi = (2.0f * PI * j) / (res - 1);
+		float cosPhi = std::cos(phi);
+		float sinPhi = std::sin(phi);
+
+		for (int i = 0; i < res; ++i) // theta : angle autour du tube
+		{
+			float theta = (2.0f * PI * i) / (res - 1);
+			float cosTheta = std::cos(theta);
+			float sinTheta = std::sin(theta);
+
+			// (R + r cosƒÆ) cosƒÓ, (R + r cosƒÆ) sinƒÓ, r sinƒÆ
+			float tubeCenter = majorRadius + minorRadius * cosTheta;
+			float x = tubeCenter * cosPhi;
+			float y = minorRadius * sinTheta;
+			float z = tubeCenter * sinPhi;
+
+			_vertexList[res * j + i].x = x;
+			_vertexList[res * j + i].y = y;
+			_vertexList[res * j + i].z = z;
+		}
+	}
+}
+
 void Mesh::_GenerateSector(float radius, float angle)
 {
 	_vertexList.resize(_settings.GetMeshResolution() * _settings.GetMeshResolution());

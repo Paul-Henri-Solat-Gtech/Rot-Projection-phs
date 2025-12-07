@@ -37,7 +37,7 @@ public:
 	void GenerateRectangle(float width, float height);
 	void GenerateCircle(float radius);
 	void GenerateHalfCircle(float radius);
-
+	void GenerateTorus(float majorRadius, float minorRadius);
 
 	const std::vector<Vertex>& GetVertices() const { return _vertexList; }
 

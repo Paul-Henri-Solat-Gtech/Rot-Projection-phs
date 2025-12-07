@@ -53,6 +53,9 @@ int main(int argc, char* argv[])
     mesh.GenerateHalfCircle(15.f);
     std::cout << "Half Circle radius 15:" << std::endl;
     screen.Display(mesh);
+    mesh.GenerateTorus(15.f, 4.f);
+    std::cout << "Torus 15x5:" << std::endl;
+    screen.Display(mesh);
     return 0;
 
 	// .\Rot-Projection-phs.exe -w 30 -h 15 -r 10 -b . -p X -s 9 -v 10 <-After constructing the release

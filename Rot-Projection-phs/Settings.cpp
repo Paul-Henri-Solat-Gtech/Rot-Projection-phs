@@ -8,7 +8,7 @@ Settings::Settings(int argc, char** argv) :
     _screenBackground(' '),
     _screenMeshProjection('X'),
     _screenPosition(3.33f),
-	_meshResolution(32),
+	_meshResolution(80),
     _meshPosition(3.33f),
     _viewerPosition(5.f)
 {
