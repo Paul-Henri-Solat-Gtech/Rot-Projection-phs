@@ -3,6 +3,9 @@
 #include <string>
 #include <cstdlib>
 
+#include <thread>
+#include <chrono>
+
 #include "Settings.h"
 #include "Screen.h"
 #include "Mesh.h"
@@ -25,6 +28,14 @@ void SetCursorVisible(bool visible)
     }
 }
 
+// Callback pour le kill du programme (Ctrl+C)
+void OnKill(int signum)
+{
+    ClearConsole();
+    SetCursorVisible(true); 
+    std::exit(signum);      // Termine le programme proprement
+}
+
 int main(int argc, char* argv[])
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -39,8 +50,10 @@ int main(int argc, char* argv[])
     SetCursorVisible(false);
     Settings settings(argc, argv);
     Screen screen(settings);
+
     screen.Display();
     Mesh mesh(settings);
+    
     mesh.GenerateRectangle(10.f, 20.f);
     std::cout << "Rectangle 10x20:" << std::endl;
     screen.Display(mesh);
@@ -53,11 +66,28 @@ int main(int argc, char* argv[])
     mesh.GenerateHalfCircle(15.f);
     std::cout << "Half Circle radius 15:" << std::endl;
     screen.Display(mesh);
-    mesh.GenerateTorus(15.f, 4.f);
-    std::cout << "Torus 15x5:" << std::endl;
-    screen.Display(mesh);
-    return 0;
 
-	// .\Rot-Projection-phs.exe -w 30 -h 15 -r 10 -b . -p X -s 9 -v 10 <-After constructing the release
-	// -r devrait etre a 30 pour un meilleur affichage mais il faut pauser les debug
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    std::cout << "Torus 4x0.9 (rotating):" << std::endl;
+    // Clear console avant le torus
+    ClearConsole();
+
+    mesh.GenerateTorus(4.f, 0.9f);
+    float rotX = settings.GetMeshRotationXPerFrame();
+    float rotY = settings.GetMeshRotationYPerFrame();
+    float rotZ = settings.GetMeshRotationZPerFrame();
+    long frameMicro = settings.GetFrameDuration();
+    int torusOffsetY = settings.GetScreenH() / 2;
+
+    while (true)
+    {
+        std::cout << "\x1b[H"; // reset curseur en haut
+        mesh.Rotate(rotX, rotY, rotZ);
+        screen.Display(mesh); // affiche uniquement le torus
+        std::this_thread::sleep_for(std::chrono::microseconds(frameMicro));
+    }
+
+
+    return 0;
 }

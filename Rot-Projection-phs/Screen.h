@@ -26,6 +26,5 @@ private:
 
 	std::vector<char> m_pixels;
 	std::vector<float> m_oozBuffer;
-
 };
 

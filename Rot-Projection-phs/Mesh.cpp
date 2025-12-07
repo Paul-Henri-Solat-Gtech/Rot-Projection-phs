@@ -104,6 +104,16 @@ void Mesh::_GenerateSector(float radius, float angle)
 	}
 }
 
+void Mesh::Rotate(float rotX, float rotY, float rotZ)
+{
+	for (auto& v : _vertexList)
+	{
+		if (rotX != 0.0f) v.Rotate(rotX, Axis::x);
+		if (rotY != 0.0f) v.Rotate(rotY, Axis::y);
+		if (rotZ != 0.0f) v.Rotate(rotZ, Axis::z);
+	}
+}
+
 void Vertex::Rotate(float angle, Axis axis)
 {
 	float px = x;

@@ -21,6 +21,11 @@ public:
 	void SetScreenH(int size) { _screenHeight = size; }
 	void SetMeshResolution(int size) { _meshResolution = size; }
 
+	float GetMeshRotationXPerFrame() { return _rotX; }
+	float GetMeshRotationYPerFrame() { return _rotY; }
+	float GetMeshRotationZPerFrame() { return _rotZ; }
+	long GetFrameDuration() { return _frameDuration; }
+
 	void PrintInfo();
 
 	void _ParseArguments(int argc, char** argv);
@@ -34,4 +39,9 @@ private:
 	char _screenMeshProjection;
 	float _screenPosition;
 	float _viewerPosition;
+
+	float _rotX;
+	float _rotY;
+	float _rotZ;
+	long _frameDuration;
 };

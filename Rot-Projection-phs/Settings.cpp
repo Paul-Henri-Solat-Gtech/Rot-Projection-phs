@@ -8,9 +8,13 @@ Settings::Settings(int argc, char** argv) :
     _screenBackground(' '),
     _screenMeshProjection('X'),
     _screenPosition(3.33f),
-	_meshResolution(80),
+	_meshResolution(128),
     _meshPosition(3.33f),
-    _viewerPosition(5.f)
+    _viewerPosition(5.f),
+    _rotX(0.20f),
+    _rotY(0.004f),
+    _rotZ(0.0f),
+    _frameDuration(100000)
 {
     _ParseArguments(argc, argv);
 }
@@ -60,6 +64,26 @@ void Settings::_ParseArguments(int argc, char** argv)
         {
             _meshPosition = std::atof(argv[i + 1]);
             i++;
+        }
+        else if (arg == "-x" && i + 1 < argc) 
+        { 
+            _rotX = std::atof(argv[i + 1]); 
+            i++; 
+        }
+        else if (arg == "-y" && i + 1 < argc) 
+        { 
+            _rotY = std::atof(argv[i + 1]); 
+            i++; 
+        }
+        else if (arg == "-z" && i + 1 < argc) 
+        { 
+            _rotZ = std::atof(argv[i + 1]); 
+            i++; 
+        }
+        else if (arg == "-f" && i + 1 < argc) 
+        {
+            _frameDuration = std::atol(argv[i + 1]); 
+            i++; 
         }
     }
 }

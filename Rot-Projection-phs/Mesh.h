@@ -40,8 +40,9 @@ public:
 	void GenerateTorus(float majorRadius, float minorRadius);
 
 	const std::vector<Vertex>& GetVertices() const { return _vertexList; }
+	std::vector<Vertex>& GetVertices() { return _vertexList; }
 
-	void Rotate(float angle, Axis axis);
+	void Rotate(float rotX, float rotY, float rotZ);
 
 private:
 	void _GenerateSector(float radius, float angle);
