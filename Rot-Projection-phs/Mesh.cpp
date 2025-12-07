@@ -1,5 +1,5 @@
 #include "Mesh.h"
-
+#include <cmath>
 #include <iostream>
 
 constexpr float PI = 3.14159265f;
@@ -11,13 +11,6 @@ Mesh::Mesh(Settings settings): _settings(settings)
 
 void Mesh::Debug()
 {
-	//std::cout << "\nVertexList : [";
-	//for (auto& v : _vertexList)
-	//{
-	//	std::cout << "{" << v.x << "," << v.y << "," << v.z << "},";
-	//}
-	//std::cout << "] Res:" << _resolution << std::endl;
-
 	for (Vertex const& vertex : _vertexList)
 	{
 		vertex.Debug();
@@ -57,7 +50,7 @@ void Mesh::GenerateRectangle(float width, float height)
 
 void Mesh::GenerateCircle(float radius)
 {
-	_GenerateSector(radius, 2 * PI);
+	_GenerateSector(radius, 2*PI);
 }
 
 void Mesh::GenerateHalfCircle(float radius)

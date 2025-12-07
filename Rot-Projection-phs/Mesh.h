@@ -38,12 +38,13 @@ public:
 	void GenerateCircle(float radius);
 	void GenerateHalfCircle(float radius);
 
-	void _GenerateSector(float radius, float angle);
+
 	const std::vector<Vertex>& GetVertices() const { return _vertexList; }
 
 	void Rotate(float angle, Axis axis);
 
 private:
+	void _GenerateSector(float radius, float angle);
 
 	std::vector<Vertex> _vertexList; // vertices
 	Settings _settings;

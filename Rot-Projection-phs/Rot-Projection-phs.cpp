@@ -7,6 +7,24 @@
 #include "Screen.h"
 #include "Mesh.h"
 
+void ClearConsole()
+{
+	std::cout << "\x1b[2J"; // Remove all characters in console
+	std::cout << "\x1b[H"; // Set cursor pos to "home" position (0,0)
+}
+
+void SetCursorVisible(bool visible)
+{
+    if (visible)
+    {
+        std::cout << "\x1b[?25h"; // Make cursor visible
+    }
+    else
+    {
+        std::cout << "\x1b[?25l"; // Make cursor invisible
+    }
+}
+
 int main(int argc, char* argv[])
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -14,74 +32,29 @@ int main(int argc, char* argv[])
 	GetConsoleMode(hConsole, &mode);
 	SetConsoleMode(hConsole, mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
 
+	ClearConsole();
+
 	// parse args
-	int screenWidth = 0;
-	int screenHeight = 0;
-	int meshResolution = 4;
-	char screenBackground = '.';
-	char screenMeshProjection = 'X';
-	int screenPosition = 9;
-	int viewerPosition = 10;
-
-	bool doStart = false;
-	for (int i = 1; i < argc; ++i)
-	{
-		std::string a = argv[i];
-		if (a == "-w" && i + 1 < argc) { screenWidth = std::atoi(argv[++i]); continue; }
-		if (a == "-h" && i + 1 < argc) { screenHeight = std::atoi(argv[++i]); continue; }
-		if (a == "-r" && i + 1 < argc) { meshResolution = std::atoi(argv[++i]); continue; }
-		if (a == "-b" && i + 1 < argc) { std::string val = argv[++i]; if (!val.empty()) screenBackground = val[0]; continue; }
-		if (a == "-p" && i + 1 < argc) { std::string val = argv[++i]; if (!val.empty()) screenMeshProjection = val[0]; continue; }
-		if (a == "-s" && i + 1 < argc) { screenPosition = std::atoi(argv[++i]); continue; }
-		if (a == "-v" && i + 1 < argc) { viewerPosition = std::atoi(argv[++i]); continue; }
-	}
-
-	if (screenWidth > 0 && screenHeight > 0)
-	{
-		//Set settings
-		Settings newSettings(screenWidth, screenHeight, meshResolution, screenBackground,screenMeshProjection,screenPosition,viewerPosition);
-
-		//Build Screen
-		Screen newScreen(newSettings);
-
-		//Mesh
-		Mesh newMesh(newSettings);
-
-		std::cout << "Rectangle 2x4:" << std::endl;
-		newMesh.GenerateRectangle(2.f, 4.f);
-		//newMesh.Debug();
-		//newScreen.Clear();
-		newScreen.DrawMesh(newMesh);
-		newScreen.Display();
-
-
-		std::cout << "Square 6x6:" << std::endl;
-		newMesh.GenerateSquare(6.f);
-		//newMesh.Debug();
-		newScreen.ResetBuffers();   // vide les pixels et le Z-buffer
-		newScreen.DrawMesh(newMesh);
-		newScreen.Display();
-
-		std::cout << "Circle radius 2:" << std::endl;
-		newMesh.GenerateCircle(2.f);
-		//newMesh.Debug();
-		newScreen.ResetBuffers();   // vide les pixels et le Z-buffer
-		newScreen.DrawMesh(newMesh);
-		newScreen.Display();
-
-		std::cout << "Half Circle radius 1:" << std::endl;
-		newMesh.GenerateHalfCircle(1.f);
-		//newMesh.Debug();
-		newScreen.ResetBuffers();   // vide les pixels et le Z-buffer
-		newScreen.DrawMesh(newMesh);
-		newScreen.Display();
-	}
-	else 
-	{
-		std::cout << "No -start flag given. Use: exe -w 30 -h 15 -r 10 -b . -p X -s 9 -v 10\n";
-	}
+    ClearConsole();
+    SetCursorVisible(false);
+    Settings settings(argc, argv);
+    Screen screen(settings);
+    screen.Display();
+    Mesh mesh(settings);
+    mesh.GenerateRectangle(10.f, 20.f);
+    std::cout << "Rectangle 10x20:" << std::endl;
+    screen.Display(mesh);
+    mesh.GenerateSquare(20.f);
+    std::cout << "Square 20x20:" << std::endl;
+    screen.Display(mesh);
+    mesh.GenerateCircle(15.f);
+    std::cout << "Circle radius 15:" << std::endl;
+    screen.Display(mesh);
+    mesh.GenerateHalfCircle(15.f);
+    std::cout << "Half Circle radius 15:" << std::endl;
+    screen.Display(mesh);
+    return 0;
 
 	// .\Rot-Projection-phs.exe -w 30 -h 15 -r 10 -b . -p X -s 9 -v 10 <-After constructing the release
 	// -r devrait etre a 30 pour un meilleur affichage mais il faut pauser les debug
-	return 0;
 }

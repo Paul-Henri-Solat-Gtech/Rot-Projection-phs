@@ -4,11 +4,13 @@
 class Settings
 {
 public:
-	Settings(int screenWidth, int screenHeight, int meshResolution, char screenBackground, char screenMeshProj, float screenPos, float viewerPos);
+	Settings(int argc, char** argv);
 
 	int GetScreenW() { return _screenWidth; }
 	int GetScreenH() { return _screenHeight; }
+
 	int GetMeshResolution() { return _meshResolution; }
+	float GetMeshPosition() { return _meshPosition; }
 
 	char GetScreenBackground() { return _screenBackground; }
 	char GetScreenMeshProjection() { return _screenMeshProjection; }
@@ -21,9 +23,12 @@ public:
 
 	void PrintInfo();
 
+	void _ParseArguments(int argc, char** argv);
+
 private:
 	int _screenWidth, _screenHeight;
 	int _meshResolution;
+	float _meshPosition;
 
 	char _screenBackground;
 	char _screenMeshProjection;

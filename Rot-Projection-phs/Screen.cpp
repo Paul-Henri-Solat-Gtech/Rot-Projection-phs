@@ -1,6 +1,8 @@
 ﻿#include "Screen.h"
 
-Screen::Screen(Settings settings) : _settings(settings)
+Screen::Screen(Settings settings) : _settings(settings), 
+m_pixels(_settings.GetScreenW()* _settings.GetScreenH(), '.'),
+m_oozBuffer(_settings.GetScreenW()* _settings.GetScreenH(), 0.f)
 {
     int size = _settings.GetScreenW() * _settings.GetScreenH();
     m_pixels.resize(size, _settings.GetScreenBackground());
@@ -20,39 +22,35 @@ void Screen::Display()
     {
         for (int x = 0; x < _settings.GetScreenW(); x++)
         {
-            std::cout << m_pixels[y * _settings.GetScreenW() + x];
+            std::cout << m_pixels[_settings.GetScreenW() * y + x];
         }
-        std::cout << "\n";
+        std::cout << std::endl;
     }
 
-    _settings.PrintInfo();
+    //_settings.PrintInfo();
+}
+
+void Screen::Display(Mesh const& mesh)
+{
+    std::fill(m_pixels.begin(), m_pixels.end(), _settings.GetScreenBackground());
+    DrawMesh(mesh);
+    Display();
 }
 
 void Screen::DrawMesh(Mesh const& mesh)
 {
-    for (Vertex v : mesh.GetVertices())
+    std::fill(m_oozBuffer.begin(), m_oozBuffer.end(), 0.f);
+    for (Vertex vertex : mesh.GetVertices())
     {
-        // Evite division par 0, provisoire si pas encore de vraie projection
-        if (v.z == 0) v.z = 1;
-
-        // Projection 1:1 simple + recentrage dans l'écran
-        v.x = v.x * _settings.GetScreenPosition() + (_settings.GetScreenW() * 0.5f);
-        v.y = v.y * _settings.GetScreenPosition() + (_settings.GetScreenH() * 0.5f);
-
-        int u = std::round(v.x);
-        int j = std::round(v.y);
-        float ooz = 1.0f / v.z;
-
-        if (u >= 0 && u < _settings.GetScreenW() &&
-            j >= 0 && j < _settings.GetScreenH())
+        _ProjectInCenterScreenSpace(vertex);
+        _ProjectInTopLeftScreenSpace(vertex);
+        int u = std::round(vertex.x);
+        int v = std::round(vertex.y);
+        float ooz = 1.f / vertex.z;
+        if (_IsVertexInScreen(u, v) && ooz > m_oozBuffer[v * _settings.GetScreenW() + u])
         {
-            int idx = j * _settings.GetScreenW() + u;
-
-            if (ooz > m_oozBuffer[idx]) // Z-buffer ASCII
-            {
-                m_oozBuffer[idx] = ooz;
-                m_pixels[idx] = _settings.GetScreenMeshProjection();
-            }
+            m_oozBuffer[v * _settings.GetScreenW() + u] = ooz;
+            m_pixels[v * _settings.GetScreenW() + u] = _settings.GetScreenMeshProjection();
         }
     }
 }
@@ -66,4 +64,22 @@ void Screen::Clear()
     printf(ansi_clear.c_str());
     printf(ansi_firstPos.c_str());
     printf(ansi_hideCursor.c_str());
+}
+
+void Screen::_ProjectInCenterScreenSpace(Vertex& vertex)
+{
+    vertex.z += _settings.GetMeshPosition();
+    vertex.x = _settings.GetScreenPosition() * vertex.x / vertex.z;
+    vertex.y = _settings.GetScreenPosition() * vertex.y / vertex.z / 2.f;
+}
+
+void Screen::_ProjectInTopLeftScreenSpace(Vertex& vertex)
+{
+    vertex.x += _settings.GetScreenW() / 2;
+    vertex.y += _settings.GetScreenH() / 2;
+}
+
+bool Screen::_IsVertexInScreen(int u, int v)
+{
+    return u >= 0 && u < _settings.GetScreenW() && v >= 0 && v < _settings.GetScreenH();
 }
