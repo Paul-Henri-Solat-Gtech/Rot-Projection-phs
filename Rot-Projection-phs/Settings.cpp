@@ -7,13 +7,13 @@ Settings::Settings(int argc, char** argv) :
 	_screenHeight(20),
     _screenBackground(' '),
     _screenMeshProjection('X'),
-    _screenPosition(3.33f),
+    _screenPosition(10.f), //camera pos
 	_meshResolution(128),
     _meshPosition(3.33f),
     _viewerPosition(5.f),
-    _rotX(0.20f),
-    _rotY(0.004f),
-    _rotZ(0.0f),
+    _rotX(0.10f),
+    _rotY(0.10f),
+    _rotZ(0.10f),
     _frameDuration(100000)
 {
     _ParseArguments(argc, argv);

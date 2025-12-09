@@ -67,24 +67,25 @@ int main(int argc, char* argv[])
     std::cout << "Half Circle radius 15:" << std::endl;
     screen.Display(mesh);
 
-
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    // Donut
+    std::this_thread::sleep_for(std::chrono::milliseconds(500)); // pause for generating after those render (cause threads)
     std::cout << "Torus 4x0.9 (rotating):" << std::endl;
-    // Clear console avant le torus
-    ClearConsole();
+    ClearConsole(); // Clear console before torus
 
     mesh.GenerateTorus(4.f, 0.9f);
     float rotX = settings.GetMeshRotationXPerFrame();
     float rotY = settings.GetMeshRotationYPerFrame();
     float rotZ = settings.GetMeshRotationZPerFrame();
     long frameMicro = settings.GetFrameDuration();
-    int torusOffsetY = settings.GetScreenH() / 2;
+    int torusOffsetY = settings.GetScreenH() / 2; // centre
 
     while (true)
     {
         std::cout << "\x1b[H"; // reset curseur en haut
+        
         mesh.Rotate(rotX, rotY, rotZ);
-        screen.Display(mesh); // affiche uniquement le torus
+        screen.Display(mesh);
+
         std::this_thread::sleep_for(std::chrono::microseconds(frameMicro));
     }
 
