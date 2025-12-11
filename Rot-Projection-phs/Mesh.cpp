@@ -116,23 +116,23 @@ void Mesh::Rotate(float rotX, float rotY, float rotZ)
 
 void Vertex::Rotate(float angle, Axis axis)
 {
-	float px = x;
-	float py = y;
-	float pz = z;
+	float pastX = x;
+	float pastY = y;
+	float pastZ = z;
 
 	switch (axis)
 	{
 	case Axis::x:
-		y = py * std::cos(angle) - pz * std::sin(angle);
-		z = py * std::sin(angle) + pz * std::cos(angle);
+		y = pastY * std::cos(angle) - pastZ * std::sin(angle);
+		z = pastY * std::sin(angle) + pastZ * std::cos(angle);
 		break;
 	case Axis::y:
-		x = px * std::cos(angle) + pz * std::sin(angle);
-		z = -px * std::sin(angle) + pz * std::cos(angle);
+		x = pastZ * std::sin(angle)  + pastX * std::cos(angle);
+		z = pastZ * std::cos(angle) - pastX * std::sin(angle);
 		break;
 	case Axis::z:
-		x = px * std::cos(angle) - py * std::sin(angle);
-		y = px * std::sin(angle) + py * std::cos(angle);
+		x = pastX * std::cos(angle) - pastY * std::sin(angle);
+		y = pastX * std::sin(angle) + pastY * std::cos(angle);
 		break;
 	}
 }
