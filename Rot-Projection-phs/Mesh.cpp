@@ -44,6 +44,10 @@ void Mesh::GenerateRectangle(float width, float height)
 			_vertexList[_settings.GetMeshResolution() * i + j].x = (1.f * i / (_settings.GetMeshResolution() - 1) - 0.5f) * width;
 			_vertexList[_settings.GetMeshResolution() * i + j].y = (1.f * j / (_settings.GetMeshResolution() - 1) - 0.5f) * height;
 			_vertexList[_settings.GetMeshResolution() * i + j].z = 0.f;
+
+			_vertexList[_settings.GetMeshResolution() * i + j].nx = 0.f;
+			_vertexList[_settings.GetMeshResolution() * i + j].ny = 0.f;
+			_vertexList[_settings.GetMeshResolution() * i + j].nz = -1.f;
 		}
 	}
 }
@@ -84,6 +88,10 @@ void Mesh::GenerateTorus(float majorRadius, float minorRadius)
 			_vertexList[res * j + i].x = x;
 			_vertexList[res * j + i].y = y;
 			_vertexList[res * j + i].z = z;
+
+			_vertexList[res * j + i].nx = cosTheta * cosPhi;
+			_vertexList[res * j + i].ny = sinTheta;
+			_vertexList[res * j + i].nz = cosTheta * sinPhi;
 		}
 	}
 }
@@ -100,6 +108,10 @@ void Mesh::_GenerateSector(float radius, float angle)
 			_vertexList[_settings.GetMeshResolution() * i + j].x = r * std::cos(theta);
 			_vertexList[_settings.GetMeshResolution() * i + j].y = r * std::sin(theta);
 			_vertexList[_settings.GetMeshResolution() * i + j].z = 0.f;
+
+			_vertexList[_settings.GetMeshResolution() * i + j].nx = 0.f;
+			_vertexList[_settings.GetMeshResolution() * i + j].ny = 0.f;
+			_vertexList[_settings.GetMeshResolution() * i + j].nz = -1.f;
 		}
 	}
 }
@@ -119,20 +131,29 @@ void Vertex::Rotate(float angle, Axis axis)
 	float pastX = x;
 	float pastY = y;
 	float pastZ = z;
+	float pastNX = nx;
+	float pastNY = ny;
+	float pastNZ = nz;
 
 	switch (axis)
 	{
 	case Axis::x:
 		y = pastY * std::cos(angle) - pastZ * std::sin(angle);
 		z = pastY * std::sin(angle) + pastZ * std::cos(angle);
+		ny = pastNY * std::cos(angle) - pastNZ * std::sin(angle);
+		nz = pastNY * std::sin(angle) + pastNZ * std::cos(angle);
 		break;
 	case Axis::y:
 		x = pastZ * std::sin(angle)  + pastX * std::cos(angle);
 		z = pastZ * std::cos(angle) - pastX * std::sin(angle);
+		nx = pastNZ * std::sin(angle)  + pastNX * std::cos(angle);
+		nz = pastNZ * std::cos(angle) - pastNX * std::sin(angle);
 		break;
 	case Axis::z:
 		x = pastX * std::cos(angle) - pastY * std::sin(angle);
 		y = pastX * std::sin(angle) + pastY * std::cos(angle);
+		nx = pastNX * std::cos(angle) - pastNY * std::sin(angle);
+		ny = pastNX * std::sin(angle) + pastNY * std::cos(angle);
 		break;
 	}
 }
