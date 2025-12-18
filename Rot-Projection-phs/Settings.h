@@ -26,6 +26,10 @@ public:
 	float GetMeshRotationZPerFrame() { return _rotZ; }
 	long GetFrameDuration() { return _frameDuration; }
 
+	float GetLightDirectionX() { return _lx; }
+	float GetLightDirectionY() { return _ly; }
+	float GetLightDirectionZ() { return _lz; }
+
 	void PrintInfo();
 
 	void _ParseArguments(int argc, char** argv);
@@ -44,4 +48,8 @@ private:
 	float _rotY;
 	float _rotZ;
 	long _frameDuration;
+
+	float _lx;
+	float _ly;
+	float _lz;
 };

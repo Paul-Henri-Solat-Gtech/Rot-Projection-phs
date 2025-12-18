@@ -37,7 +37,7 @@ void Screen::Display(Mesh const& mesh)
     Display();
 }
 
-void Screen::DrawMesh(Mesh const& mesh)
+void Screen::DrawMesh(Mesh const& mesh, Light const& light)
 {
     std::fill(m_oozBuffer.begin(), m_oozBuffer.end(), 0.f);
     for (Vertex vertex : mesh.GetVertices())
@@ -47,10 +47,17 @@ void Screen::DrawMesh(Mesh const& mesh)
         int u = std::round(vertex.x);
         int v = std::round(vertex.y);
         float ooz = 1.f / vertex.z;
+
         if (_IsVertexInScreen(u, v) && ooz > m_oozBuffer[v * _settings.GetScreenW() + u])
         {
+            float L = vertex.ComputeIllumination(light);
+            if (L>0) 
+            {
+                m_pixels[v * _settings.GetScreenW() + u] = ".,-~:;=!*#$@"[(int)(L*12)];
+            }
+
             m_oozBuffer[v * _settings.GetScreenW() + u] = ooz;
-            m_pixels[v * _settings.GetScreenW() + u] = _settings.GetScreenMeshProjection();
+            //m_pixels[v * _settings.GetScreenW() + u] = _settings.GetScreenMeshProjection();
         }
     }
 }

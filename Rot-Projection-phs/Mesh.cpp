@@ -1,6 +1,7 @@
 #include "Mesh.h"
 #include <cmath>
 #include <iostream>
+#include "Light.h"
 
 constexpr float PI = 3.14159265f;
 
@@ -156,4 +157,9 @@ void Vertex::Rotate(float angle, Axis axis)
 		ny = pastNX * std::sin(angle) + pastNY * std::cos(angle);
 		break;
 	}
+}
+
+float Vertex::ComputeIllumination(Light light)
+{
+	return nx * light.GetNormalizeLight().nx;
 }

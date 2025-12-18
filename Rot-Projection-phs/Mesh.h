@@ -17,6 +17,7 @@ struct Vertex
 {
 	void Debug() const { std::printf("[x=%5.2f, y=%5.2f, z=%5.2f]\t[x=%5.2f, y=%5.2f, z=%5.2f]\n", x, y, z, nx, ny, nz); }
 	void Rotate(float angle, Axis axis);
+	float ComputeIllumination(Light light);
 	float x;
 	float y;
 	float z;
@@ -52,5 +53,6 @@ private:
 	std::vector<Vertex> _vertexList; // vertices
 	Settings _settings;
 	int _resolution;
+	Light light;
 };
 
