@@ -58,19 +58,20 @@ int main(int argc, char* argv[])
 
     screen.Display();
     Mesh mesh(settings);
-    
+    Light light(settings);
+
     mesh.GenerateRectangle(10.f, 20.f);
     std::cout << "Rectangle 10x20:" << std::endl;
-    screen.Display(mesh);
+    screen.Display(mesh, light);
     mesh.GenerateSquare(20.f);
     std::cout << "Square 20x20:" << std::endl;
-    screen.Display(mesh);
+    screen.Display(mesh, light);
     mesh.GenerateCircle(15.f);
     std::cout << "Circle radius 15:" << std::endl;
-    screen.Display(mesh);
+    screen.Display(mesh, light);
     mesh.GenerateHalfCircle(15.f);
     std::cout << "Half Circle radius 15:" << std::endl;
-    screen.Display(mesh);
+    screen.Display(mesh, light);
 
     // Donut
     std::this_thread::sleep_for(std::chrono::milliseconds(500)); // pause for generating after those render (cause threads)
@@ -89,7 +90,7 @@ int main(int argc, char* argv[])
         std::cout << "\x1b[H"; // reset curseur en haut
         
         mesh.Rotate(rotX, rotY, rotZ);
-        screen.Display(mesh);
+        screen.Display(mesh, light);
 
         std::this_thread::sleep_for(std::chrono::microseconds(frameMicro));
     }

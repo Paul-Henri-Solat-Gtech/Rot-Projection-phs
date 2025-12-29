@@ -12,7 +12,7 @@ public:
 	void ResetBuffers();
 
 	void Display();
-	void Display(Mesh const& mesh);
+	void Display(Mesh const& mesh, Light const& light);
 	void DrawMesh(Mesh const& mesh, Light const& light);
 	void Clear();
 

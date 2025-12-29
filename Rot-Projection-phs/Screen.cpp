@@ -30,10 +30,10 @@ void Screen::Display()
     //_settings.PrintInfo();
 }
 
-void Screen::Display(Mesh const& mesh)
+void Screen::Display(Mesh const& mesh, Light const& light)
 {
     std::fill(m_pixels.begin(), m_pixels.end(), _settings.GetScreenBackground());
-    DrawMesh(mesh);
+    DrawMesh(mesh, light);
     Display();
 }
 
@@ -55,7 +55,10 @@ void Screen::DrawMesh(Mesh const& mesh, Light const& light)
             {
                 m_pixels[v * _settings.GetScreenW() + u] = ".,-~:;=!*#$@"[(int)(L*12)];
             }
-
+            else
+            {
+                m_pixels[v * _settings.GetScreenW() + u] = '.';
+            }
             m_oozBuffer[v * _settings.GetScreenW() + u] = ooz;
             //m_pixels[v * _settings.GetScreenW() + u] = _settings.GetScreenMeshProjection();
         }

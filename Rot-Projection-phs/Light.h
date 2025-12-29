@@ -7,7 +7,8 @@ class Light
 public:
 	Light(Settings settings);
 
-	Vertex GetNormalizeLight() { return m_lightVertex; }
+	Vertex const& GetNormalizedLight() const { return m_lightVertex; }
+	void Debug() const { m_lightVertex.Debug(); }
 private:
 
 	Vertex m_lightVertex;

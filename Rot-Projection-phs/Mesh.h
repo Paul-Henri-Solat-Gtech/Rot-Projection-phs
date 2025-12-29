@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Settings.h"
+class Light;
 
 class Settings;
 
@@ -53,6 +54,5 @@ private:
 	std::vector<Vertex> _vertexList; // vertices
 	Settings _settings;
 	int _resolution;
-	Light light;
 };
 
